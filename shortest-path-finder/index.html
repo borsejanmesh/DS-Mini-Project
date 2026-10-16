@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shortest Path Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Shortest Path Finder</h1>
+    <p>Graphs + Dijkstra's Algorithm &middot; Data Structures Mini Project</p>
+  </header>
+
+  <main class="layout">
+    <!-- ============ GRAPH VISUALIZATION ============ -->
+    <section class="card graph-card">
+      <div class="card-title">
+        <h2>Graph Visualization</h2>
+        <span class="hint">Click a node to choose Start, then End. Drag nodes to move them.</span>
+      </div>
+      <svg id="graph" viewBox="0 0 640 420" aria-label="Graph"></svg>
+      <div class="legend">
+        <span><i class="dot start"></i>Start</span>
+        <span><i class="dot end"></i>End</span>
+        <span><i class="dot current"></i>Current</span>
+        <span><i class="dot evaluating"></i>Being evaluated</span>
+        <span><i class="dot visited"></i>Visited</span>
+        <span><i class="dot path"></i>Shortest path</span>
+      </div>
+    </section>
+
+    <!-- ============ CONTROLS ============ -->
+    <section class="card controls-card">
+      <h2>Controls</h2>
+      <label for="startNode">Start Node</label>
+      <select id="startNode"></select>
+
+      <label for="endNode">End Node</label>
+      <select id="endNode"></select>
+
+      <button id="findBtn" class="btn primary">Find Shortest Path</button>
+      <button id="visualizeBtn" class="btn secondary">Visualize Algorithm</button>
+      <button id="resetBtn" class="btn ghost">Reset</button>
+
+      <label for="speed">Animation speed</label>
+      <input type="range" id="speed" min="150" max="1500" step="50" value="700">
+
+      <div id="message" class="message" role="status"></div>
+
+      <h3>Algorithm Status</h3>
+      <div class="status">
+        <div><span>Current Node</span><strong id="statCurrent">–</strong></div>
+        <div><span>Current Distance</span><strong id="statDistance">–</strong></div>
+        <div><span>Nodes Visited</span><strong id="statVisited">0</strong></div>
+      </div>
+      <p id="statStep" class="step-text">Press "Visualize Algorithm" to watch Dijkstra run step by step.</p>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section class="card result-card">
+      <h2>Result</h2>
+      <p><span class="label">Shortest Path:</span> <strong id="resultPath">–</strong></p>
+      <p><span class="label">Total Distance:</span> <strong id="resultDistance">–</strong></p>
+
+      <h3>Distance Table</h3>
+      <table class="dist-table">
+        <thead><tr><th>Node</th><th>Distance</th><th>Previous</th><th>Status</th></tr></thead>
+        <tbody id="distTable"></tbody>
+      </table>
+    </section>
+
+    <!-- ============ EDIT GRAPH ============ -->
+    <section class="card edit-card">
+      <h2>Edit Graph</h2>
+      <div class="edit-group">
+        <h3>Add Node</h3>
+        <div class="row">
+          <input type="text" id="newNodeName" placeholder="Name (e.g. E)" maxlength="12">
+          <button id="addNodeBtn" class="btn small">Add Node</button>
+        </div>
+      </div>
+      <div class="edit-group">
+        <h3>Add / Update Edge</h3>
+        <div class="row">
+          <select id="edgeFrom"></select>
+          <select id="edgeTo"></select>
+          <input type="number" id="edgeWeight" placeholder="Weight" min="0" step="any">
+          <button id="addEdgeBtn" class="btn small">Save Edge</button>
+        </div>
+        <p class="hint">If the edge already exists, its weight is updated.</p>
+      </div>
+      <div class="edit-group">
+        <h3>Delete</h3>
+        <div class="row">
+          <select id="deleteNodeSelect"></select>
+          <button id="deleteNodeBtn" class="btn small danger">Delete Node</button>
+        </div>
+        <div class="row">
+          <select id="deleteEdgeSelect"></select>
+          <button id="deleteEdgeBtn" class="btn small danger">Delete Edge</button>
+        </div>
+      </div>
+      <button id="sampleBtn" class="btn ghost">Load Sample Graph</button>
+    </section>
+
+    <!-- ============ ALGORITHM INFORMATION ============ -->
+    <section class="card info-card">
+      <h2>Algorithm Information</h2>
+      <dl class="info">
+        <dt>Algorithm</dt><dd>Dijkstra's Algorithm</dd>
+        <dt>Time Complexity</dt><dd>O((V + E) log V) using a priority queue (binary min-heap)</dd>
+        <dt>Space Complexity</dt><dd>O(V + E)</dd>
+        <dt>Where</dt><dd>V = number of vertices (nodes), E = number of edges</dd>
+        <dt>Current graph</dt><dd id="graphSize">–</dd>
+      </dl>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="card how-card">
+      <h2>How It Works</h2>
+      <div class="how">
+        <div><h3>Graph</h3><p>Locations are represented as vertices and connections as weighted edges.</p></div>
+        <div><h3>Adjacency List</h3><p>The graph is stored as an adjacency list: each node keeps a list of its neighbours and the weight of each edge.</p></div>
+        <div><h3>Dijkstra</h3><p>Dijkstra finds the minimum-distance path in a weighted graph with non-negative edge weights by always expanding the closest unvisited node.</p></div>
+        <div><h3>Path Reconstruction</h3><p>The previous-node map records how each node was reached. Following it backwards from the destination gives the final shortest route.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">Shortest Path Finder &middot; Dijkstra's Algorithm &middot; DSA Mini Project</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
